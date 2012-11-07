@@ -3,6 +3,8 @@ Sidebar Follow
 
 当页面滚动到跟随区域下方，跟随区域将固定在窗口上。适用于所有网站侧边栏。
 
+[相关文章和 DEMO](http://www.neoease.com/sidebar-follow-scrolling-section/)
+
 Usage
 -----
 
@@ -36,6 +38,8 @@ Usage
 	});
 	/* ]]> */
 	</script>
+
+![侧边栏滚动跟随区域](http://img.neoease.org/2012/11/sidebar-follow-scrolling-section.png?_=110613)
 
 License
 -------
