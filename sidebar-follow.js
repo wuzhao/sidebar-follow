@@ -47,19 +47,26 @@ SidebarFollow.prototype = {
 		var _self = args._self;
 		var element = args.element;
 		var prevElement = args.prevElement;
+		var toTop = _self.config.distanceToTop;
+
+		// 如果 body 有 top 属性, 消除这些位移
+		var bodyToTop = parseInt(document.getElementsByTagName('body')[0].style.top, 10);
+		if(!isNaN(bodyToTop)) {
+			toTop += bodyToTop;
+		}
 
 		var elementToTop = 0;
 		if(element.style.position === 'fixed') {
 			elementToTop = _self._getScrollY();
 		} else {
-			elementToTop = _self._getCumulativeOffset(element).top - _self.config.distanceToTop;
+			elementToTop = _self._getCumulativeOffset(element).top - toTop;
 		}
 		var elementToPrev = _self._getCumulativeOffset(prevElement).top + _self._getVisibleSize(prevElement).height;
 
 		// 当节点进入跟随区域, 跟随滚动
 		if(_self._getScrollY() > elementToTop) {
 			_self.cache.originalToTop = elementToTop;
-			element.style.top = _self.config.distanceToTop + 'px';
+			element.style.top = toTop + 'px';
 			element.style.position = 'fixed';
 
 		// 否则回到原位

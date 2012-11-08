@@ -47,15 +47,22 @@ SidebarFollow.prototype = {
 		var _self = args._self;
 		var element = args.element;
 		var prevElement = args.prevElement;
+		var toTop = _self.config.distanceToTop;
 
-		var elementToTop = element.offset().top - _self.config.distanceToTop;
+		// 如果 body 有 top 属性, 消除这些位移
+		var bodyToTop = parseInt(jQuery('body').css('top'), 10);
+		if(!isNaN(bodyToTop)) {
+			toTop += bodyToTop;
+		}
+
+		var elementToTop = element.offset().top - toTop;
 		var elementToPrev = prevElement.offset().top + prevElement.outerHeight();
 
 		// 当节点进入跟随区域, 跟随滚动
 		if(jQuery(document).scrollTop() > elementToTop) {
 			_self.cache.originalToTop = elementToTop;
 			element.css({
-				top: _self.config.distanceToTop + 'px',
+				top: toTop + 'px',
 				position: 'fixed'
 			});
 
