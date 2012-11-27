@@ -1,6 +1,6 @@
 /**
  * @author: mg12 [http://www.neoease.com/]
- * @update: 2012/11/05
+ * @update: 2012/11/27
  */
 
 SidebarFollow = function() {
@@ -12,7 +12,8 @@ SidebarFollow = function() {
 	};
 
 	this.cache = {
-		originalToTop: 0 // 原本到页面顶部的距离
+		originalToTop: 0, // 原本到页面顶部的距离
+		placeholder: document.createElement('div') // 占位节点
 	}
 };
 
@@ -65,12 +66,21 @@ SidebarFollow.prototype = {
 
 		// 当节点进入跟随区域, 跟随滚动
 		if(_self._getScrollY() > elementToTop) {
+			// 添加占位节点
+			var elementHeight = _self._getVisibleSize(element).height;
+			_self.cache.placeholder.style.height = elementHeight + 'px';
+			element.parentNode.insertBefore(_self.cache.placeholder, element);
+			// 记录原位置
 			_self.cache.originalToTop = elementToTop;
+			// 修改样式
 			element.style.top = toTop + 'px';
 			element.style.position = 'fixed';
 
 		// 否则回到原位
 		} else if(_self.cache.originalToTop > elementToTop || elementToPrev > elementToTop) {
+			// 删除占位节点
+			_self.cache.placeholder.parentNode.removeChild(_self.cache.placeholder);
+			// 修改样式
 			element.style.position = 'static';
 		}
 	},
