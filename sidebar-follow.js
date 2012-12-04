@@ -1,18 +1,19 @@
 /**
  * @author: mg12 [http://www.neoease.com/]
- * @update: 2012/11/27
+ * @update: 2012/12/05
  */
 
 SidebarFollow = function() {
 
 	this.config = {
 		element: null, // 处理的节点
-		prevElement: null, // 上一个节点
 		distanceToTop: 0 // 节点上边到页面顶部的距离
 	};
 
 	this.cache = {
 		originalToTop: 0, // 原本到页面顶部的距离
+		prevElement: null, // 上一个节点
+		parentToTop: 0, // 父节点的上边到顶部距离
 		placeholder: document.createElement('div') // 占位节点
 	}
 };
@@ -29,6 +30,23 @@ SidebarFollow.prototype = {
 		if(!element) {
 			return;
 		}
+
+		// 获取上一个节点
+		var prevElement = _self._getPrevElement(element);
+		while(prevElement.offsetHeight < 0) {
+			prevElement = _self._getPrevElement(prevElement);
+			if(!prevElement) {
+				break;
+			}
+		}
+		_self.cache.prevElement = prevElement;
+
+		// 计算父节点的上边到顶部距离
+		var parent = element.parentNode;
+		var parentToTop = _self._getCumulativeOffset(parent).top;
+		var parentBorderTop = parseInt(parent.style.borderTop, 10);
+		var parentPaddingTop = parseInt(parent.style.paddingTop, 10);
+		_self.cache.parentToTop = parentToTop + parentBorderTop + parentPaddingTop;
 
 		// 滚动屏幕
 		_self._addListener(window, 'scroll', function() {
@@ -149,5 +167,16 @@ SidebarFollow.prototype = {
 			return true;
 		}
 		return false;
+	},
+
+	/**
+	 * 获取上一个节点
+	 */
+	_getPrevElement: function(element) {
+		var prev = element.previousSibling;
+		while(prev.nodeType !== 1) {
+			prev = prev.previousSibling;
+		}
+		return prev;
 	}
 };
