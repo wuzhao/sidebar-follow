@@ -17,7 +17,6 @@ Usage
 	/* <![CDATA[ */
 	(new SidebarFollow()).init({
 		element: 'sidebar-follow',
-		prevElement: 'recent-comments',
 		distanceToTop: 15
 	});
 	/* ]]> */
@@ -33,13 +32,12 @@ Usage
 	/* <![CDATA[ */
 	(new SidebarFollow()).init({
 		element: jQuery('#sidebar-follow'),
-		prevElement: jQuery('#recent-comments'),
 		distanceToTop: 15
 	});
 	/* ]]> */
 	</script>
 
-![侧边栏滚动跟随区域](http://img.neoease.org/2012/11/sidebar-follow-scrolling-section.png?_=110613)
+![侧边栏滚动跟随区域](http://img.neoease.org/2012/11/sidebar-follow-scrolling-section.png)
 
 License
 -------
