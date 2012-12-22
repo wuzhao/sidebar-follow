@@ -96,10 +96,13 @@ SidebarFollow.prototype = {
 
 		// 否则回到原位
 		} else if(_self.cache.originalToTop > elementToTop || elementToPrev > elementToTop) {
-			// 删除占位节点
-			_self.cache.placeholder.parentNode.removeChild(_self.cache.placeholder);
-			// 修改样式
-			element.style.position = 'static';
+			var parent = _self.cache.placeholder.parentNode;
+			if(parent) {
+				// 删除占位节点
+				parent.removeChild(_self.cache.placeholder);
+				// 修改样式
+				element.style.position = 'static';
+			}
 		}
 	},
 
